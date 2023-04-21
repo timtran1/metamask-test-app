@@ -16,6 +16,12 @@ function App() {
     const [nfts, setNfts] = useState([]);
 
     useEffect(() => {
+        async function getNFTs() {
+            const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${account}`)
+            const resp = await res.json()
+            setNfts(resp.assets)
+        }
+
         if (account) getNFTs()
     }, [account])
 
@@ -25,11 +31,6 @@ function App() {
         setAccount(accounts[0])
     }
 
-    async function getNFTs() {
-        const res = await fetch(`https://api.opensea.io/api/v1/assets?owner=${account}`)
-        const resp = await res.json()
-        setNfts(resp.assets)
-    }
 
     return (
         <div className={`text-center p-10`}>
